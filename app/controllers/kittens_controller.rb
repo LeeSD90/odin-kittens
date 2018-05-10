@@ -1,67 +1,60 @@
 class KittensController < ApplicationController
   before_action :set_kitten, only: [:show, :edit, :update, :destroy]
 
-  # GET /kittens
-  # GET /kittens.json
   def index
     @kittens = Kitten.all
+    respond_to do |format|
+      format.html
+      format.json { render :json => @kittens }
+    end
   end
 
-  # GET /kittens/1
-  # GET /kittens/1.json
   def show
     @kitten = Kitten.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render :json => @kitten }
+    end
   end
 
-  # GET /kittens/new
   def new
     @kitten = Kitten.new
   end
 
-  # GET /kittens/1/edit
   def edit
   end
 
-  # POST /kittens
-  # POST /kittens.json
   def create
     @kitten = Kitten.new(kitten_params)
 
     respond_to do |format|
       if @kitten.save
         flash[:success] = "Kitten was successfully created."
-        format.html { redirect_to @kitten }
-        format.json { render :show, status: :created, location: @kitten }
+        redirect_to @kitten
       else
-        format.html { render :new }
-        format.json { render json: @kitten.errors, status: :unprocessable_entity }
+        flash[:error] = "Whoops couldnt create that kitten"
+        render :new 
       end
     end
   end
 
-  # PATCH/PUT /kittens/1
-  # PATCH/PUT /kittens/1.json
   def update
     respond_to do |format|
       if @kitten.update(kitten_params)
         flash[:notice] = 'Kitten was successfully updated.'
-        format.html { redirect_to @kitten }
-        format.json { render :show, status: :ok, location: @kitten }
+        redirect_to @kitten
       else
-        format.html { render :edit }
-        format.json { render json: @kitten.errors, status: :unprocessable_entity }
+        flash[:error] = "Whoops couldn't update that kitten."
+        render :edit 
       end
     end
   end
 
-  # DELETE /kittens/1
-  # DELETE /kittens/1.json
   def destroy
     @kitten.destroy
     respond_to do |format|
       flash[:notice] = 'Kitten was successfully destroyed.'
-      format.html { redirect_to kittens_url }
-      format.json { head :no_content }
+      redirect_to kittens_url
     end
   end
 
