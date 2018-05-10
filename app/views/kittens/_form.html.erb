@@ -10,7 +10,10 @@
       </ul>
     </div>
   <% end %>
-
+  Name: <%= form.text_field :name %>
+  Age: <%= form.number_field :age %>
+  Cuteness: <%= form.select :cuteness, (1..10) %>
+  Softness: <%= form.select :softness, (1..10) %>
   <div class="actions">
     <%= form.submit %>
   </div>
